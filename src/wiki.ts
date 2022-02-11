@@ -2,6 +2,7 @@ import { BLANK } from "./constants";
 import WikiArticle from "./types/WikiArticle";
 
 const wikipediaApiUrl = 'https://en.wikipedia.org/w/api.php';
+// const wikipediaApiUrl = 'https://bulbapedia.bulbagarden.net/w/api.php';
 
 
 function formatGetParams(params: object): string {
@@ -12,12 +13,17 @@ function formatGetParams(params: object): string {
     return `?${urlParams}`;
 }
 
-
+interface ThumbnailInfo {
+    height: number;
+    width: number;
+    source: string;
+}
 
 interface RandomArticleInfo {
     pageid: number;
     ns: number;
     title: string;
+    thumbnail?: ThumbnailInfo;
 }
 
 
@@ -26,9 +32,14 @@ async function fetchRandomArticlesInfo(limit: number = 1): Promise<RandomArticle
         action: 'query',
         origin: '*',
         format: 'json',
+        //Parameters for the random article query
         generator: 'random',
         grnlimit: limit,
         grnnamespace: 0,  //Limit the random page selection to just articles
+        //Parameters for the thumbnail info query
+        prop: 'pageimages',
+        piprop: 'thumbnail',
+        pithumbsize: 300
     };
 
     const response = await fetch(wikipediaApiUrl + formatGetParams(parameters));
@@ -40,7 +51,7 @@ async function fetchRandomArticlesInfo(limit: number = 1): Promise<RandomArticle
 async function fetchPageHTML(pageId: number): Promise<string> {
     const parameters = {
         action: 'parse',
-        prop: 'text',
+        prop: 'text|images',
         section: 0,
         origin: '*',
         format: 'json',
@@ -90,6 +101,7 @@ async function fetchRandomArticle(): Promise<WikiArticle> {
 
     return {
         title: randomArticle.title,
+        imageSource: randomArticle.thumbnail?.source,
         words: parseWikiHtml(html)
     };
 }

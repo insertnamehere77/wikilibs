@@ -1,38 +1,43 @@
 .App {
-  text-align: center;
+  font-family: sans-serif;
+  padding: 1.25em 1.5em 1.5em 1.5em;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.ArticleHeader {
+  font-size: 1.8em;
+  font-family: 'Linux Libertine','Georgia','Times',serif;
+  line-height: 1.3;
+  border-bottom: 1px solid #a2a9b1;
+  margin-block-end: 0.35em;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+.ArticleSubHeader {
+  font-size: 85%;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+.ArticleContent {
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1em;
 }
 
-.App-link {
-  color: #61dafb;
+.ArticleText {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  gap: 0.25rem;
+  font-size: 0.875em;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
+.ArticleImage {
+  border: 1px solid #a2a9b1;
+  background-color: #f8f9fa;
+  padding: 0.5em;
+}
+
+@media screen and (max-width: 990px) {
+  .ArticleContent {
+    flex-wrap: wrap;
   }
 }

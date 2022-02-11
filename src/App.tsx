@@ -1,6 +1,7 @@
-import { useCallback, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import './App.css';
 import { BLANK } from './constants';
+import LoadingState from './enums/LoadingState';
 import { speak } from './speech';
 import WikiArticle from './types/WikiArticle';
 import { fetchRandomArticle } from './wiki';
@@ -37,7 +38,7 @@ const fillInBlanks = (words: string[], wordLookup: WordLookup): string =>
 
 
 function App() {
-
+  const [loadingState, setLoadingState] = useState<LoadingState>();
   const [article, setArticle] = useState<WikiArticle>();
   const [wordLookup, setWordLookup] = useState<WordLookup>({});
 
@@ -49,38 +50,68 @@ function App() {
     }), []);
 
 
+  const fetchArticleAndResetState = useCallback(() => {
+    setWordLookup({});
+    setArticle(undefined);
+    setLoadingState(LoadingState.LOADING);
+
+    fetchRandomArticle()
+      .then(newArticle => {
+        setLoadingState(LoadingState.SUCCESS);
+        setArticle(newArticle);
+      })
+      .catch(err => {
+        setLoadingState(LoadingState.FAILURE);
+        console.error(err);
+      })
+  }, []);
+
+
+  useEffect(() => {
+    fetchArticleAndResetState();
+  }, []);
+
+
 
   return (
     <div className="App">
-      <button onClick={() =>
-        fetchRandomArticle()
-          .then(newArticle => setArticle(newArticle))
-          .catch(err => console.log(err))
-      } > test</button>
+      <button onClick={() => fetchArticleAndResetState()
+      } > Refresh</button>
+
+      {loadingState === LoadingState.LOADING && <div>Loading...</div>}
+      {loadingState === LoadingState.FAILURE && <div>Failed to load article!</div>}
 
 
       {article && <button onClick={() =>
         speak(fillInBlanks(article?.words, wordLookup))
-      } > play</button>}
+      } > Play</button>}
 
 
       {article && (
         <>
           <br />
-          <h1>{article.title}</h1>
+          <h1 className='ArticleHeader'>{article.title}</h1>
+          <div className='ArticleSubHeader'>From Wikipedia, the free encyclopedia</div>
           <br />
-          {article.words.map((wordStr, index) =>
-            isBlank(wordStr) ?
-              <WordBlank
-                key={`${wordStr}-${index}`}
-                setBlankValue={setBlankValue}
-                index={index}
-                value={wordLookup[index]} />
-              :
-              <div key={`${wordStr}-${index}`} >
-                {wordStr}
-              </div>
-          )}
+          <div className='ArticleContent'>
+            <div className='ArticleText'>
+              {article.words.map((wordStr, index) =>
+                isBlank(wordStr) ?
+                  <WordBlank
+                    key={`${wordStr}-${index}`}
+                    setBlankValue={setBlankValue}
+                    index={index}
+                    value={wordLookup[index]} />
+                  :
+                  <div key={`${wordStr}-${index}`} >
+                    {wordStr}
+                  </div>
+              )}
+            </div>
+            {article.imageSource && <div className='ArticleImage'>
+              <img src={article.imageSource} alt='' />
+            </div>}
+          </div>
         </>)
       }
 
