@@ -4,13 +4,30 @@ function getRandomElem(arr: any[]) {
 };
 
 function speak(text: string) {
-    const speechSynth = window.speechSynthesis;
     const utterThis = new SpeechSynthesisUtterance(text);
-    const voices = speechSynth.getVoices();
+    const speechSynth = window.speechSynthesis;
+    const voices = speechSynth.getVoices()
+        .filter(voice => voice.lang === 'en');
     utterThis.voice = getRandomElem(voices);
     speechSynth.speak(utterThis);
 }
 
+function pause() {
+    window.speechSynthesis.pause();
+}
+
+function resume() {
+    window.speechSynthesis.resume();
+}
+
+function clearQueue() {
+    window.speechSynthesis.cancel();
+}
+
+
 export {
-    speak
+    speak,
+    pause,
+    resume,
+    clearQueue
 }

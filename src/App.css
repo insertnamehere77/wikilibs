@@ -22,6 +22,13 @@
   gap: 1em;
 }
 
+@media screen and (max-width: 990px) {
+  .ArticleContent {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+}
+
 .ArticleText {
   display: flex;
   flex-wrap: wrap;
@@ -36,8 +43,24 @@
   padding: 0.5em;
 }
 
-@media screen and (max-width: 990px) {
-  .ArticleContent {
-    flex-wrap: wrap;
-  }
+.ArticleImageHeader {
+  text-align: center;
+  font-weight: bold;
+  line-height: 1.5em;
+}
+
+
+.Blank {
+  width: 5.5em; 
+  height: 1em;
+  border: none;
+  border-bottom: 1px solid #a2a9b1;
+  text-align: center;
+  outline: none;
+  color: blue;
+}
+
+.ArticleControls {
+  display: flex;
+  justify-content: space-evenly;
 }
