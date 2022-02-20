@@ -22,12 +22,6 @@
   gap: 1em;
 }
 
-@media screen and (max-width: 990px) {
-  .ArticleContent {
-    flex-wrap: wrap;
-    justify-content: center;
-  }
-}
 
 .ArticleText {
   display: flex;
@@ -63,4 +57,63 @@
 .ArticleControls {
   display: flex;
   justify-content: space-evenly;
+  gap: 1em;
+
+  border: 1px solid #a2a9b1;
+  background-color: #f8f9fa;
+  padding: 0.5em;
+
+  margin-left: auto;
+  margin-right: auto;
+  width: 50%;
+}
+
+.Button {
+  flex-grow: 1;
+  border-radius: 0.25em;
+  border: 1px solid;
+  text-align: center;
+  padding: 0.8em;
+  font-size: 1.25em;
+  cursor: pointer;
+
+  transition-property: background-color border-color;
+  transition-duration: 0.15s;
+
+  /* TODO: Maybe revisit this */
+  min-width: 4em;
+}
+
+.Button:disabled {
+  cursor: default;
+  border-color: #ddd;
+  background-color: #f9f9f9;
+}
+
+.Green {
+  background-color: #cef2e0;
+  border-color: #a3bfb1;
+}
+
+.Purple {
+  background-color: #ddcef2;
+  border-color: #afa3bf;
+}
+
+.Blue {
+  background-color: #cedff2;
+  border-color:#a3b0bf;
+}
+
+
+@media screen and (max-width: 990px) {
+  .ArticleContent {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .ArticleControls {
+    width: 80%;
+  }
+
 }

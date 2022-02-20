@@ -5,6 +5,8 @@ import LoadingState from './enums/LoadingState';
 import { speak, pause, resume, clearQueue } from './speech';
 import WikiArticle from './types/WikiArticle';
 import { fetchRandomArticle } from './wiki';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faDice, faPause, faPlay, faVolumeHigh } from '@fortawesome/free-solid-svg-icons';
 
 
 interface WordProps {
@@ -31,13 +33,19 @@ function WordBlank(props: WordProps): JSX.Element {
 
 interface ButtonProps {
   callback: Function;
-  text: string;
+  children: JSX.Element | string;
   disabled?: boolean;
+  color?: 'Blue' | 'Purple' | 'Green';
+  title?: string;
 }
 
 function Button(props: ButtonProps): JSX.Element {
-  return (<button disabled={props.disabled}
-    onClick={() => props.callback()} >{props.text}</button>)
+  const color = props.color || 'Blue';
+  return (<button
+    title={props.title}
+    className={`Button ${color}`}
+    disabled={props.disabled}
+    onClick={() => props.callback()} >{props.children}</button>)
 }
 
 interface VoiceButtonProps {
@@ -63,35 +71,42 @@ function VoiceButton(props: VoiceButtonProps): JSX.Element {
   }, []);
 
   if (voiceStatus === VoiceStatus.SPEAKING) {
-    return <Button text='Pause It!'
+    return (<Button
+      color='Purple'
+      title='Pause'
       callback={() => {
         pause();
         setVoiceStatus(VoiceStatus.PAUSED);
       }}
-    />;
+    >
+      <FontAwesomeIcon icon={faPause} />
+    </Button>);
   }
 
   if (voiceStatus === VoiceStatus.PAUSED) {
-    return <Button text='Resume It!'
+    return <Button
+      color='Green'
+      title='Continue'
       callback={() => {
         resume();
         setVoiceStatus(VoiceStatus.SPEAKING);
       }}
-    />;
+    >
+      <FontAwesomeIcon icon={faPlay} />
+    </Button>;
   }
 
-  return <Button text='Read It!'
+  return <Button
+    title='Read'
     callback={() => {
       props.text && speak(props.text);
       setVoiceStatus(VoiceStatus.SPEAKING);
     }}
     disabled={!props.text}
-  />;
+  >
+    <FontAwesomeIcon icon={faVolumeHigh} />
+  </Button>;
 
-}
-
-function isBlank(text: string): boolean {
-  return text === BLANK;
 }
 
 
@@ -101,7 +116,7 @@ interface WordLookup {
 
 const fillInBlanks = (words: string[], wordLookup: WordLookup): string =>
   words.map((word: string, index: number) =>
-    isBlank(word) ? wordLookup[index] : word)
+    word === BLANK ? wordLookup[index] : word)
     .join(' ');
 
 
@@ -109,13 +124,10 @@ function App(): JSX.Element {
   const [loadingState, setLoadingState] = useState<LoadingState>();
   const [article, setArticle] = useState<WikiArticle>();
   const [wordLookup, setWordLookup] = useState<WordLookup>({});
-
+  const voiceDisabled = Object.values(wordLookup).length !== article?.numBlanks;
 
   const setBlankValue = useCallback((value: string, index: number) =>
-    setWordLookup(curr => {
-      curr[index] = value;
-      return curr;
-    }), []);
+    setWordLookup(curr => ({ ...curr, [index]: value })), []);
 
 
   const fetchArticleAndResetState = useCallback(() => {
@@ -157,12 +169,12 @@ function App(): JSX.Element {
             <div>
               <div className='ArticleText'>
                 {article.words.map((wordStr, index) =>
-                  isBlank(wordStr) ?
+                  (wordStr === BLANK) ?
                     <WordBlank
                       key={`${wordStr}-${index}`}
                       setBlankValue={setBlankValue}
                       index={index}
-                      value={wordLookup[index]} />
+                      value={wordLookup[index] || ''} />
                     :
                     <div key={`${wordStr}-${index}`} >
                       {wordStr}
@@ -172,8 +184,14 @@ function App(): JSX.Element {
               <br />
 
               <div className='ArticleControls'>
-                <Button callback={fetchArticleAndResetState} text='New Article!' />
-                <VoiceButton text={fillInBlanks(article?.words, wordLookup)} />
+                <Button callback={fetchArticleAndResetState} title="Random Page">
+                  <>
+                    <FontAwesomeIcon icon={faDice} />
+                  </>
+                </Button>
+                <VoiceButton text={voiceDisabled ?
+                  undefined :
+                  fillInBlanks(article?.words, wordLookup)} />
               </div>
 
 

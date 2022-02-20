@@ -98,11 +98,13 @@ async function fetchRandomArticle(): Promise<WikiArticle> {
     if (!html) {
         throw Error(`Couldn't fetch HTML for article "${randomArticle.title}" with ID ${randomArticle.pageid}`);
     }
-
+    const words = parseWikiHtml(html);
+    const numBlanks = words.reduce((total, currWord) => total + (currWord === BLANK ? 1 : 0), 0);
     return {
         title: randomArticle.title,
         imageSource: randomArticle.thumbnail?.source,
-        words: parseWikiHtml(html)
+        words: words,
+        numBlanks: numBlanks
     };
 }
 
