@@ -1,0 +1,36 @@
+.Button {
+    flex-grow: 1;
+    border-radius: 0.25em;
+    border: 1px solid;
+    text-align: center;
+    padding: 0.8em;
+    font-size: 1.25em;
+    cursor: pointer;
+  
+    transition-property: background-color border-color;
+    transition-duration: 0.15s;
+  
+    /* TODO: Maybe revisit this */
+    min-width: 4em;
+  }
+  
+  .Button:disabled {
+    cursor: default;
+    border-color: #ddd;
+    background-color: #f9f9f9;
+  }
+  
+  .Green {
+    background-color: #cef2e0;
+    border-color: #a3bfb1;
+  }
+  
+  .Purple {
+    background-color: #ddcef2;
+    border-color: #afa3bf;
+  }
+  
+  .Blue {
+    background-color: #cedff2;
+    border-color:#a3b0bf;
+  }

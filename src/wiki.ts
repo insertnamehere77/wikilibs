@@ -2,7 +2,6 @@ import { BLANK } from "./constants";
 import WikiArticle from "./types/WikiArticle";
 
 const wikipediaApiUrl = 'https://en.wikipedia.org/w/api.php';
-// const wikipediaApiUrl = 'https://bulbapedia.bulbagarden.net/w/api.php';
 
 
 function formatGetParams(params: object): string {
