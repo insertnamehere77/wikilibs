@@ -23,4 +23,5 @@
 
 .RandomButton {
     width: 15em;
+    flex-grow: 0;
 }
