@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faDice, faCircleNotch } from '@fortawesome/free-solid-svg-icons';
+import { faDice, faCircleNotch, faX } from '@fortawesome/free-solid-svg-icons';
 
 import './Article.css';
 import { BLANK } from '../constants';
@@ -45,7 +45,7 @@ const fillInBlanks = (words: string[], wordLookup: WordLookup): string =>
 
 
 function Article(): JSX.Element {
-    const [loadingState, setLoadingState] = useState<LoadingState>(LoadingState.FAILURE);
+    const [loadingState, setLoadingState] = useState<LoadingState>();
     const [article, setArticle] = useState<WikiArticle>();
     const [wordLookup, setWordLookup] = useState<WordLookup>({});
     const voiceDisabled = Object.values(wordLookup).length !== article?.numBlanks;
@@ -79,15 +79,20 @@ function Article(): JSX.Element {
     return (
         <div className="Article">
             {loadingState === LoadingState.LOADING &&
-                <div className='LoadingIndicatorContainer'>
+                <div className='LoadingStatusContainer'>
                     <div className='LoadingIndicator'>
                         <FontAwesomeIcon
                             size='3x'
                             icon={faCircleNotch} />
                     </div>
-                </div>
-            }
-            {loadingState === LoadingState.FAILURE && <div>Failed to load article!</div>}
+                </div>}
+            {loadingState === LoadingState.FAILURE &&
+                <div className='LoadingStatusContainer'>
+                    <FontAwesomeIcon
+                        size='3x'
+                        icon={faX} />
+                    <div>There was an issue loading the article!</div>
+                </div>}
             {article && (
                 <>
                     <h1 className='ArticleHeader'>{article.title}</h1>

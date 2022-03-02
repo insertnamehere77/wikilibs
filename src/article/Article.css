@@ -3,10 +3,12 @@
     padding: 0.0em 1.5em 1.5em 1.5em;
   }
  
-  .LoadingIndicatorContainer {
+  .LoadingStatusContainer {
     width: 80vw;
     padding: 1em;
     display: flex;
+    flex-direction: column;
+    gap: 0.5em;
     justify-content: center;
     align-items: center;
   }
