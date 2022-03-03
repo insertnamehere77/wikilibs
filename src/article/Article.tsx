@@ -116,12 +116,14 @@ function Article(): JSX.Element {
                             </div>
                             <br />
                             <div className='ArticleControls'>
-                                <Button callback={fetchArticleAndResetState} title="Random Page">
+                                <Button style={{ 'flexGrow': 1 }} callback={fetchArticleAndResetState} title="Random Page">
                                     <FontAwesomeIcon icon={faDice} />
                                 </Button>
-                                <VoiceButton text={voiceDisabled ?
-                                    undefined :
-                                    fillInBlanks(article?.words, wordLookup)} />
+                                <VoiceButton
+                                    style={{ 'flexGrow': 1 }}
+                                    text={voiceDisabled ?
+                                        undefined :
+                                        fillInBlanks(article?.words, wordLookup)} />
                             </div>
                         </div>
                         {article.imageSource && <div className='ArticleImage'>

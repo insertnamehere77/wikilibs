@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { CSSProperties, useEffect, useState } from 'react';
 import { faPause, faPlay, faVolumeHigh } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
@@ -14,11 +14,13 @@ interface ButtonProps {
     color?: 'Blue' | 'Purple' | 'Green';
     title?: string;
     className?: string;
+    style?: CSSProperties
 }
 
 function Button(props: ButtonProps): JSX.Element {
     const color = props.color || 'Blue';
     return (<button
+        style={props.style}
         title={props.title}
         className={`Button ${color} ${props.className || ''}`}
         disabled={props.disabled}
@@ -27,6 +29,7 @@ function Button(props: ButtonProps): JSX.Element {
 
 interface VoiceButtonProps {
     text?: string;
+    style?: CSSProperties;
 }
 
 enum VoiceStatus {
@@ -49,6 +52,7 @@ function VoiceButton(props: VoiceButtonProps): JSX.Element {
 
     if (voiceStatus === VoiceStatus.SPEAKING) {
         return (<Button
+            style={props.style}
             color='Purple'
             title='Pause'
             callback={() => {
@@ -62,6 +66,7 @@ function VoiceButton(props: VoiceButtonProps): JSX.Element {
 
     if (voiceStatus === VoiceStatus.PAUSED) {
         return <Button
+            style={props.style}
             color='Green'
             title='Continue'
             callback={() => {
@@ -74,6 +79,7 @@ function VoiceButton(props: VoiceButtonProps): JSX.Element {
     }
 
     return <Button
+        style={props.style}
         title='Read'
         callback={() => {
             props.text && speak(props.text);
