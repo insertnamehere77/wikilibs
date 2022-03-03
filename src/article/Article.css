@@ -77,6 +77,7 @@
     text-align: center;
     outline: none;
     color: blue;
+    font-size: 0.875em;
   }
   
   .ArticleControls {
@@ -104,6 +105,13 @@
   
     .ArticleControls {
       width: 80%;
+    }
+
+    .ArticleText {
+      font-size: 1em;
+    }
+    .Blank {
+      font-size: 1em;
     }
   
   }
