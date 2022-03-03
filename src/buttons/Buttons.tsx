@@ -82,7 +82,10 @@ function VoiceButton(props: VoiceButtonProps): JSX.Element {
         style={props.style}
         title='Read'
         callback={() => {
-            props.text && speak(props.text);
+            if (props.text) {
+                speak(props.text)
+                    .addEventListener('end', (event: SpeechSynthesisEvent) => setVoiceStatus(VoiceStatus.NOT_SPEAKING));
+            }
             setVoiceStatus(VoiceStatus.SPEAKING);
         }}
         disabled={!props.text}

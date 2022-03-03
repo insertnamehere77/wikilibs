@@ -3,13 +3,15 @@ function getRandomElem(arr: any[]) {
     return arr[Math.floor(arr.length * Math.random())]
 };
 
-function speak(text: string) {
+function speak(text: string): SpeechSynthesisUtterance {
     const utterThis = new SpeechSynthesisUtterance(text);
     const speechSynth = window.speechSynthesis;
     const voices = speechSynth.getVoices()
         .filter(voice => voice.lang === 'en');
     utterThis.voice = getRandomElem(voices);
     speechSynth.speak(utterThis);
+
+    return utterThis;
 }
 
 function pause() {
