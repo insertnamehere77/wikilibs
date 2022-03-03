@@ -1,5 +1,4 @@
-import { BLANK } from "./constants";
-import WikiArticle from "./types/WikiArticle";
+import { BLANK } from "../constants";
 
 const wikipediaApiUrl = 'https://en.wikipedia.org/w/api.php';
 
@@ -86,6 +85,15 @@ function parseWikiHtml(text: string): string[] {
 
     return words;
 }
+
+
+export interface WikiArticle {
+    title: string;
+    words: Array<string>;
+    numBlanks: number;
+    imageSource?: string;
+}
+
 
 async function fetchRandomArticle(): Promise<WikiArticle> {
     const randomArticle = (await fetchRandomArticlesInfo())[0];

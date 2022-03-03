@@ -3,7 +3,7 @@ import { faPause, faPlay, faVolumeHigh } from '@fortawesome/free-solid-svg-icons
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import './Buttons.css';
-import { speak, pause, resume, clearQueue } from '../speech';
+import { speak, pause, resume, clearQueue } from '../utils/speech';
 
 
 

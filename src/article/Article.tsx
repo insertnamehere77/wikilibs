@@ -4,9 +4,7 @@ import { faDice, faCircleNotch, faX } from '@fortawesome/free-solid-svg-icons';
 
 import './Article.css';
 import { BLANK } from '../constants';
-import LoadingState from '../enums/LoadingState';
-import WikiArticle from '../types/WikiArticle';
-import { fetchRandomArticle } from '../wiki';
+import { fetchRandomArticle, WikiArticle } from '../utils/wiki';
 import { Button, VoiceButton } from '../buttons';
 
 interface WordProps {
@@ -33,9 +31,14 @@ function WordBlank(props: WordProps): JSX.Element {
 
 
 
-
 interface WordLookup {
     [index: number]: string;
+}
+
+enum LoadingState {
+    LOADING = "LOADING",
+    SUCCESS = "SUCCESS",
+    FAILURE = "FAILURE"
 }
 
 const fillInBlanks = (words: string[], wordLookup: WordLookup): string =>
