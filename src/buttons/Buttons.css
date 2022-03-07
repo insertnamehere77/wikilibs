@@ -7,7 +7,7 @@
     font-size: 1.25em;
     cursor: pointer;
   
-    transition-property: background-color border-color;
+    transition-property: background-color border-color color;
     transition-duration: 0.15s;
   
     /* TODO: Maybe revisit this */
@@ -18,6 +18,7 @@
     cursor: default;
     border-color: #ddd;
     background-color: #f9f9f9;
+    color: #a6a6a6;
   }
   
   .Green {
